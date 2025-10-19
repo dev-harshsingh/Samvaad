@@ -1,0 +1,344 @@
+LiveCode Online Interview Platform – Detailed Roadmap
+Phase 0: Project Setup & Version Control
+
+Goal: Set up a clean MERN project structure and learn Git basics.
+
+Tasks:
+
+Create project folder: LiveCode/
+
+Create subfolders: backend/ and frontend/
+
+Initialize Node.js in backend (npm init -y)
+
+Initialize React.js in frontend (npx create-react-app frontend)
+
+Install essential backend packages: express, mongoose, dotenv, cors, nodemon
+
+Configure .env for environment variables (PORT, MONGO_URI)
+
+Initialize Git repository
+
+git init
+
+.gitignore to exclude node_modules, .env, etc.
+
+First commit: git add . && git commit -m "Initial project setup"
+
+Push to GitHub: connect remote, git push -u origin main
+
+Key Learning:
+
+Project structure for MERN
+
+Basic backend + frontend setup
+
+Git workflow (init → commit → push)
+
+Mini Challenge:
+
+Run backend and frontend separately, ensure both work.
+
+Make your first commit and push it to GitHub.
+
+Phase 1: User Authentication & Role Management
+
+Goal: Enable secure login/register and assign roles (interviewer/candidate).
+
+Backend Tasks:
+
+Install: jsonwebtoken (JWT), bcryptjs (password hashing)
+
+Create User model with fields: name, email, password, role
+
+Routes:
+
+/register → register user, hash password
+
+/login → login user, return JWT
+
+Middleware:
+
+authMiddleware → verify JWT
+
+roleMiddleware → restrict routes based on role
+
+Frontend Tasks:
+
+Login & registration forms
+
+Store JWT in localStorage
+
+Redirect based on role
+
+Key Learning:
+
+JWT-based authentication
+
+Role-based access control
+
+Connecting frontend to backend APIs
+
+Common Mistakes:
+
+Storing plain passwords
+
+Not validating JWT on every request
+
+Forgetting CORS setup for frontend-backend communication
+
+Git Integration:
+
+Create branch feature/auth
+
+Commit backend & frontend auth separately
+
+Mini Challenge:
+
+Test login/register with both roles, and verify JWT protects routes.
+
+Phase 2: Real-time Communication Setup
+
+Goal: Prepare for multi-user rooms using Socket.io.
+
+Backend Tasks:
+
+Install socket.io
+
+Initialize Socket.io server alongside Express
+
+Setup basic “connect” and “disconnect” events
+
+Frontend Tasks:
+
+Install socket.io-client
+
+Connect to backend Socket.io server
+
+Test sending and receiving simple events
+
+Key Learning:
+
+Basics of real-time bidirectional communication
+
+Event-driven architecture
+
+Git Integration:
+
+Branch: feature/socket-setup
+
+Commit after successful connection events
+
+Mini Challenge:
+
+Open multiple browser tabs, emit and receive a test event in real-time.
+
+Phase 3: Real-time Chat
+
+Goal: Enable chat inside rooms.
+
+Backend Tasks:
+
+Socket events: join_room, send_message, receive_message
+
+Broadcast messages to all users in room
+
+Frontend Tasks:
+
+Create chat UI
+
+Emit messages to server and display received messages
+
+Show user name with messages
+
+Key Learning:
+
+Real-time messaging logic
+
+Updating UI dynamically
+
+Git Integration:
+
+Branch: feature/chat
+
+Commit backend & frontend chat
+
+Mini Challenge:
+
+Two interviewers + candidate chat in the same room.
+
+Phase 4: Real-time Code Editor (Monaco)
+
+Goal: Enable collaborative coding.
+
+Frontend Tasks:
+
+Install @monaco-editor/react
+
+Integrate Monaco Editor in UI
+
+Use Socket.io events: code_change
+
+Broadcast code changes to all users
+
+Backend Tasks: (Optional)
+
+Handle server-side broadcasting or persistence if needed
+
+Key Learning:
+
+Collaborative editing logic
+
+Synchronizing state across clients
+
+Common Mistakes:
+
+Overwriting changes too quickly (debounce edits)
+
+Not broadcasting cursor position if needed
+
+Git Integration:
+
+Branch: feature/code-editor
+
+Commit after editor integration
+
+Mini Challenge:
+
+Multiple users typing in editor should see live updates.
+
+Phase 5: Video/Audio Calls (WebRTC)
+
+Goal: Enable peer-to-peer media calls.
+
+Frontend Tasks:
+
+Capture audio/video: navigator.mediaDevices.getUserMedia()
+
+Display local & remote streams
+
+Handle multiple participants
+
+Backend Tasks:
+
+Use Socket.io for signaling:
+
+offer, answer, ice-candidate events
+
+Key Learning:
+
+WebRTC basics: PeerConnection, MediaStream
+
+Signaling process via Socket.io
+
+Common Mistakes:
+
+Forgetting to handle ICE candidates
+
+Not cleaning up streams on disconnect
+
+Git Integration:
+
+Branch: feature/webrtc
+
+Commit after functional video/audio calls
+
+Mini Challenge:
+
+Join a room with two users and see/hear each other.
+
+Phase 6: Room Management
+
+Goal: Multi-interviewer + single candidate rooms.
+
+Backend Tasks:
+
+Create Room model if persistence needed
+
+Track participants per room
+
+Frontend Tasks:
+
+UI for joining/leaving room
+
+Display participant list
+
+Key Learning:
+
+Room logic, participant tracking
+
+Handling joins/leaves cleanly
+
+Git Integration:
+
+Branch: feature/room-management
+
+Commit after room management works
+
+Mini Challenge:
+
+Verify role-based participant display (candidates vs interviewers).
+
+Phase 7: Role-based Features
+
+Goal: Enforce restrictions based on user role.
+
+Tasks:
+
+Interviewers can see all candidates
+
+Candidates cannot see other candidates
+
+Restrict certain actions (like kicking users)
+
+Key Learning:
+
+Fine-grained access control
+
+Sync role rules between frontend & backend
+
+Git Integration:
+
+Branch: feature/role-features
+
+Commit after enforcing role-based restrictions
+
+Mini Challenge:
+
+Candidate tries to perform an interviewer action → should fail.
+
+Phase 8: Polishing, Testing & Deployment
+
+Goal: MVP ready for real use.
+
+Tasks:
+
+Handle disconnects/reconnections
+
+UI improvements
+
+Optional: deploy backend + frontend
+
+Tag stable release in Git (v1.0)
+
+Key Learning:
+
+End-to-end testing
+
+Deployment basics
+
+Release management in Git
+
+Mini Challenge:
+
+Test complete workflow: login, chat, code editor, video call in a room.
+
+✅ Git Integration Strategy
+
+Feature branches: feature/<feature-name>
+
+Commit often: small, logical commits
+
+Push frequently: maintain backup + GitHub log
+
+Merge to main: after testing features
