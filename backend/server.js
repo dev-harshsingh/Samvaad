@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello from Samvaad");
+  res.send("Samvaad Backend Running");
 });
 
 const PORT = process.env.PORT || 5000;
