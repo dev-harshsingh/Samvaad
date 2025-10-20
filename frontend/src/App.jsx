@@ -4,7 +4,7 @@ function App() {
 
   return (
     <>
-      <h1>Samvaad Backend Running</h1>
+      <h1>Hello From Samvaad</h1>
     </>
   );
 }
