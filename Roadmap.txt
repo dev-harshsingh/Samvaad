@@ -1,4 +1,4 @@
-LiveCode Online Interview Platform – Detailed Roadmap
+Samvaad – Detailed Roadmap
 Phase 0: Project Setup & Version Control
 
 Goal: Set up a clean MERN project structure and learn Git basics.

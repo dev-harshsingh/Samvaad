@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-
+import {protect} from "../middleware/authMiddleware.js"
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
@@ -56,4 +56,17 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ message: "Login error" });
   }
 });
+
+
+router.get("/me", protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
 export default router;
