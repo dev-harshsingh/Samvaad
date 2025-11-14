@@ -1,45 +1,56 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
+import dotenv from "dotenv";
+import { createServer } from "http";
+import { Server } from "socket.io";
 import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/auth.js";
-import { authorizeRoles, protect } from "./middleware/authMiddleware.js";
+import { protect, authorizeRoles } from "./middleware/authMiddleware.js";
 
 dotenv.config();
+connectDB();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-connectDB();
 
-const router = express.Router();
-
+// Normal HTTP route example
 app.use("/api/auth", authRoutes);
-
-app.get("/", (req, res) => {
-  res.send("Samvaad Backend Running");
+app.get("/api/test/candidate", protect, authorizeRoles("candidate"), (req, res) => {
+  res.send(`Hello Candidate ${req.user.id}`);
 });
 
-app.get(
-  "/api/test/candidate",
-  protect,
-  authorizeRoles("candidate"),
-  (req, res) => {
-    res.send(`Hello Candidate ${req.user.id}`);
-  }
-);
+// --- Socket.io setup ---
+const httpServer = createServer(app);
 
-app.get(
-  "/api/test/interviewer",
-  protect,
-  authorizeRoles("interviewer"),
-  (req, res) => {
-    res.send(`Hello Interviewer ${req.user.id}`);
-  }
-);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:5173", // frontend vite port
+    methods: ["GET", "POST"],
+  },
+});
 
+// Handle socket connection
+io.on("connection", (socket) => {
+  console.log("🟢 New client connected:", socket.id);
+
+  // Join room
+  socket.on("join-room", (roomId, userRole) => {
+    socket.join(roomId);
+    console.log(`${userRole} joined room ${roomId}`);
+    io.to(roomId).emit("user-joined", `${userRole} joined the interview`);
+  });
+
+  // Listen for chat messages
+  socket.on("chat-message", (roomId, message) => {
+    io.to(roomId).emit("receive-message", message);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("🔴 Client disconnected:", socket.id);
+  });
+});
+
+// Start server
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
