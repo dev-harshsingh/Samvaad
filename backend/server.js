@@ -15,21 +15,26 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.get("/api/test/candidate", protect, authorizeRoles("candidate"), (req, res) => {
-  res.send(`Hello Candidate ${req.user.id}`);
-});
+app.get(
+  "/api/test/candidate",
+  protect,
+  authorizeRoles("candidate"),
+  (req, res) => {
+    res.send(`Hello Candidate ${req.user.id}`);
+  }
+);
 
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", 
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
 
 io.on("connection", (socket) => {
-  console.log("🟢 New client connected:", socket.id);
+  console.log("New client connected:", socket.id);
 
   socket.on("join-room", (roomId, userRole) => {
     socket.join(roomId);
@@ -42,7 +47,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log("🔴 Client disconnected:", socket.id);
+    console.log("Client disconnected:", socket.id);
   });
 });
 

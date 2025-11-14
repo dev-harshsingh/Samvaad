@@ -24,7 +24,7 @@ function App() {
     return () => socket.disconnect();
   }, []);
 
-  return <h1>Socket.io Test</h1>;
+  return <h1>Socket backedn Test</h1>;
 }
 
 export default App;
