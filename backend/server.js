@@ -14,34 +14,29 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Normal HTTP route example
 app.use("/api/auth", authRoutes);
 app.get("/api/test/candidate", protect, authorizeRoles("candidate"), (req, res) => {
   res.send(`Hello Candidate ${req.user.id}`);
 });
 
-// --- Socket.io setup ---
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", // frontend vite port
+    origin: "http://localhost:5173", 
     methods: ["GET", "POST"],
   },
 });
 
-// Handle socket connection
 io.on("connection", (socket) => {
   console.log("🟢 New client connected:", socket.id);
 
-  // Join room
   socket.on("join-room", (roomId, userRole) => {
     socket.join(roomId);
     console.log(`${userRole} joined room ${roomId}`);
     io.to(roomId).emit("user-joined", `${userRole} joined the interview`);
   });
 
-  // Listen for chat messages
   socket.on("chat-message", (roomId, message) => {
     io.to(roomId).emit("receive-message", message);
   });
@@ -51,6 +46,5 @@ io.on("connection", (socket) => {
   });
 });
 
-// Start server
 const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));

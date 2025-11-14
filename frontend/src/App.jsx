@@ -9,14 +9,12 @@ function App() {
       console.log("Connected to Socket.io server:", socket.id);
     });
 
-    // Test joining a room
     socket.emit("join-room", "room123", "candidate");
 
     socket.on("user-joined", (msg) => {
       console.log("Server says:", msg);
     });
 
-    // Send a test chat message
     socket.emit("chat-message", "room123", "Hello from frontend!");
 
     socket.on("receive-message", (message) => {
