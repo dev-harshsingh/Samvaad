@@ -12,10 +12,7 @@ function InterviewRoom(){
     return <>
         <div className="flex h-screen w-screen">
 
-      {/* LEFT SIDE - Editor */}
-      <div className="w-3/5 h-full">
-        <EditorSection />
-      </div>
+      
 
       {/* RIGHT SIDE - Video + Chat */}
       <div className="w-2/5 h-full flex flex-col">
@@ -28,6 +25,10 @@ function InterviewRoom(){
           <ChatSection />
         </div>
 
+      </div>
+      {/* LEFT SIDE - Editor */}
+      <div className="w-3/5 h-full">
+        <EditorSection />
       </div>
 
     </div>
