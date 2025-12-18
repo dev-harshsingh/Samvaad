@@ -1,9 +1,9 @@
-function ChatSection() {
+function CodeEditor() {
   return (
     <div className="h-full bg-gray-800 text-white flex items-center justify-center">
-      Chat (Coming Soon)
+      Code Editor
     </div>
   );
 }
 
-export default ChatSection;
+export default CodeEditor;
